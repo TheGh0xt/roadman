@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roadman AI — RAG Traffic Safety Assistant</title>
+  <meta name="description" content="AI-powered road safety & traffic law assistant with street-smart comedic persona and 100% verified legal citations." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo">
+          <i class="ri-steering-2-line"></i>
+        </div>
+        <div class="brand-text">
+          <h1>ROADMAN <span>AI</span></h1>
+          <p class="tagline">RAG Traffic Safety Assistant</p>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="card-label"><i class="ri-user-smile-line"></i> PERSONA MODE</div>
+        <div class="persona-select-wrapper">
+          <button class="persona-btn active" data-mode="roadman" id="persona-roadman">
+            <span class="p-icon">🧢</span>
+            <div class="p-info">
+              <span class="p-title">Classic Roadman</span>
+              <span class="p-desc">Funny, blunt & 100% factual</span>
+            </div>
+          </button>
+          <button class="persona-btn" data-mode="strict" id="persona-strict">
+            <span class="p-icon">⚖️</span>
+            <div class="p-info">
+              <span class="p-title">Strict Lawman</span>
+              <span class="p-desc">Formal statutory text</span>
+            </div>
+          </button>
+          <button class="persona-btn" data-mode="hyper" id="persona-hyper">
+            <span class="p-icon">🚨</span>
+            <div class="p-info">
+              <span class="p-title">Hyper Roadman</span>
+              <span class="p-desc">Max street commentary</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" id="nav-chat">
+          <i class="ri-chat-voice-line"></i> Chat Assistant
+        </button>
+        <button class="nav-item" id="nav-explorer">
+          <i class="ri-book-open-line"></i> Traffic Law Explorer
+        </button>
+        <button class="nav-item" id="nav-cli">
+          <i class="ri-terminal-box-line"></i> CLI Integration Guide
+        </button>
+      </nav>
+
+      <div class="rag-status-widget">
+        <div class="status-indicator online"></div>
+        <div class="status-details">
+          <span class="status-title">RAG Engine Active</span>
+          <span class="status-sub" id="vector-count">Gemma 2 + Vector Index</span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <p>Grounding Engine v1.0 • Zero Hallucinations</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2 id="view-title">Traffic Law Assistant</h2>
+          <span class="badge badge-yellow"><i class="ri-shield-check-line"></i> RAG Grounded</span>
+          <span class="badge badge-cyan"><i class="ri-cpu-line"></i> Gemma LLM</span>
+        </div>
+        <div class="topbar-right">
+          <button class="icon-btn" id="btn-clear-chat" title="Clear Chat History">
+            <i class="ri-delete-bin-line"></i>
+          </button>
+          <button class="icon-btn" id="btn-search-toggle" title="Search Database">
+            <i class="ri-search-line"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- View 1: Chat Assistant -->
+      <section class="view-panel active" id="view-chat-panel">
+        
+        <!-- Chat Stream Box -->
+        <div class="chat-messages" id="chat-messages">
+          
+          <!-- Welcome Greeting Card -->
+          <div class="message-card system-welcome">
+            <div class="avatar roadman-avatar">🧢</div>
+            <div class="msg-content">
+              <div class="msg-header">
+                <span class="author-name">Roadman AI</span>
+                <span class="timestamp">Just now</span>
+              </div>
+              <div class="msg-body">
+                <p>Allow it my g! I'm <strong>Roadman</strong> — your street-smart, 100% verified legal traffic guide.</p>
+                <p>Ask me anything about road safety rules, speed limits, mobile phone fines, red lights, or penalty points. Every single answer is strictly grounded in official traffic acts and highway codes.</p>
+              </div>
+              <div class="quick-prompts-container">
+                <span class="prompts-label"><i class="ri-flashlight-line"></i> Quick Legal Queries:</span>
+                <div class="pills-grid">
+                  <button class="prompt-pill" data-query="What are the FRSC penalties for using a mobile phone while driving?">
+                    <i class="ri-smartphone-line"></i> Mobile Phone Penalty & Points
+                  </button>
+                  <button class="prompt-pill" data-query="What are the FRSC speed limit rules and speeding fine amounts?">
+                    <i class="ri-dashboard-3-line"></i> FRSC Speeding Penalties & Fines
+                  </button>
+                  <button class="prompt-pill" data-query="What happens if a driver fails to stop for pedestrians at a Zebra crossing?">
+                    <i class="ri-walk-line"></i> Pedestrian Zebra Crossing Rights
+                  </button>
+                  <button class="prompt-pill" data-query="What are the legal alcohol limits and DUI penalties according to the FRSC Quality Manual?">
+                    <i class="ri-goblet-line"></i> FRSC DUI Blood Alcohol Limit
+                  </button>
+                  <button class="prompt-pill" data-query="What is the fine for driving without seatbelts for driver and passengers?">
+                    <i class="ri-shield-check-line"></i> Seatbelt Regulation Fines
+                  </button>
+                  <button class="prompt-pill" data-query="What is the penalty for driving without valid vehicle insurance?">
+                    <i class="ri-shield-cross-line"></i> Uninsured Vehicle Fines
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Chat Input Footer -->
+        <div class="chat-input-area">
+          <form id="chat-form" class="chat-form">
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="user-input" 
+                placeholder="Ask Roadman about speed limits, red lights, fines, phone penalties..." 
+                autocomplete="off"
+                required
+              />
+              <button type="submit" id="btn-send" class="btn-send" title="Send Message">
+                <i class="ri-send-plane-2-fill"></i>
+              </button>
+            </div>
+          </form>
+          <div class="input-footer-note">
+            <span><i class="ri-lock-line"></i> Strict RAG Grounding: Answers bounded strictly by official Highway Traffic Codes.</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- View 2: Traffic Law Explorer -->
+      <section class="view-panel" id="view-explorer-panel">
+        <div class="explorer-header">
+          <h3>Statutory Traffic Law Database</h3>
+          <p>Search and inspect verified legal clauses, section numbers, fine amounts, and license points.</p>
+          <div class="search-bar-wrapper">
+            <i class="ri-search-2-line"></i>
+            <input type="text" id="explorer-search" placeholder="Search laws by keywords (e.g. phone, speed, alcohol, seatbelt, zebra)..." />
+          </div>
+        </div>
+        <div class="explorer-grid" id="explorer-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- View 3: CLI Guide Panel -->
+      <section class="view-panel" id="view-cli-panel">
+        <div class="cli-guide-card">
+          <div class="card-icon"><i class="ri-terminal-box-line"></i></div>
+          <h3>Terminal & CLI Integration</h3>
+          <p>Roadman includes a full-featured terminal CLI powered by Python, <code>rich</code>, and <code>typer</code> with stream rendering and color badges.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span>Terminal Command</span>
+              <button class="copy-btn" onclick="copyCliCommand()"><i class="ri-file-copy-line"></i> Copy</button>
+            </div>
+            <pre><code># 1. Run interactive Roadman CLI
+python cli/roadman_cli.py
+
+# 2. Run single query directly from command line
+python cli/roadman_cli.py "What is the penalty for using a phone while driving?"</code></pre>
+          </div>
+
+          <div class="cli-features">
+            <div class="feat-item">
+              <i class="ri-check-line"></i> Markdown formatted stream in terminal
+            </div>
+            <div class="feat-item">
+              <i class="ri-check-line"></i> Color-coded fine & points badges
+            </div>
+            <div class="feat-item">
+              <i class="ri-check-line"></i> Instant fallback mode if backend offline
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

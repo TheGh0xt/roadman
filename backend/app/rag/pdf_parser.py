@@ -95,7 +95,7 @@ def parse_pdf_documents() -> List[Dict[str, Any]]:
             })
             law_id += 1
 
-    print(f"[+] Successfully extracted {len(extracted_laws)} legal rules from {ROADMAN_DATA_DIR} PDFs.")
+    print(f"[+] Successfully extracted {len(extracted_laws)} legal rules from PDF documents.")
     return extracted_laws
 
 def update_corpus_from_roadman_dir():
